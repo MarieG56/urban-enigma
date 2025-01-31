@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String   @unique
+  password   String
+  timezone   String
+  rentals    Rental[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Rental {
+  id          Int          @id @default(autoincrement())
+  rental_date DateTime
+  return_date DateTime
+  customer_id Int
+  customer    Customer     @relation(fields: [customer_id], references: [id])
+  films       RentalFilm[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Film {
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String
+  release_year DateTime
+  categories   FilmCategory[]
+  rentals      RentalFilm[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Category {
+  id     Int            @id @default(autoincrement())
+  name   String
+  movies FilmCategory[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model FilmCategory {
+  film_id     Int
+  category_id Int
+  film        Film     @relation(fields: [film_id], references: [id])
+  category    Category @relation(fields: [category_id], references: [id])
+
+  @@id([film_id, category_id])
+}
+
+model RentalFilm {
+  rental_id Int
+  film_id   Int
+  rental    Rental @relation(fields: [rental_id], references: [id])
+  film      Film   @relation(fields: [film_id], references: [id])
+
+  @@id([rental_id, film_id])
+}
