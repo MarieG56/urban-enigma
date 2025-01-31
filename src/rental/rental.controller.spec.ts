@@ -4,9 +4,6 @@ import { CustomerService } from '../customer/customer.service';
 import { RentalService } from './rental.service';
 import { RentalSchedulerService } from './rental.scheduler';
 import { CreateRentalDto } from './dto/create-rental.dto';
-import { Rental } from '@prisma/client';
-import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
-import * as moment from 'moment-timezone';
 
 jest.mock('./rental.service');
 jest.mock('../customer/customer.service');

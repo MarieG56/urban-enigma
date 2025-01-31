@@ -8,19 +8,19 @@ export class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.example.com',
-      port: 587, 
-      secure: false, 
-      auth: {
-        user: 'john@doe.com', 
-        pass: 'azerty1234',
-      },
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        secure: process.env.SMTP_PORT === '465',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
     });
   }
 
   async sendEmail(to: string, subject: string, text: string): Promise<void> {
     const mailOptions = {
-      from: 'salika@test.com', 
+      from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_ADDRESS}>`, 
       to,
       subject,
       text,

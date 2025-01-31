@@ -19,6 +19,15 @@ https://github.com/MarieG56/urban-enigma.git
 
 5. Start the server: npm run start:dev
 
+6. Configure the email sending in the `.env` file, replacing these values with your actual SMTP server details:
+SMTP_HOST=smtp.example.com 
+SMTP_PORT=587 (587 for TLS, 465 for SSL)
+SMTP_USER=john@doe.com 
+SMTP_PASS=azerty
+SMTP_FROM_ADDRESS=email@test.com 
+SMTP_FROM_NAME="Your Name" 
+
+
 ## Compile and run the project
 
 ```bash
